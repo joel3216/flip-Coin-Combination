@@ -11,6 +11,7 @@ for ((i=0;i< $limit;i++))
 do
 	flipCoin1=$((RANDOM%2))
 	flipCoin2=$((RANDOM%2))
+	flipCoin3=$((RANDOM%2))
 	if [[ $flipCoin1 -eq $heads ]]
 	then
 		flipCoin1="H"
@@ -25,7 +26,14 @@ do
 		flipCoin2="T"
 	fi
 
-	singlets[$i]=$flipCoin1$flipCoin2
+	if [[ $flipCoin3 -eq $heads ]]
+	then
+		flipCoin3="H"
+	else
+		flipCoin3="T"
+	fi
+
+	singlets[$i]=$flipCoin1$flipCoin2$flipCoin3
 
 done
 
