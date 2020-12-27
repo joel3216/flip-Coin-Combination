@@ -4,8 +4,8 @@
 heads=1
 tails=0
 limit=10
-declare -A singlets
-declare -A singletPercent
+declare -A triplets
+declare -A tripletPercent
 
 for ((i=0;i< $limit;i++))
 do
@@ -33,18 +33,18 @@ do
 		flipCoin3="T"
 	fi
 
-	singlets[$i]=$flipCoin1$flipCoin2$flipCoin3
+	triplets[$i]=$flipCoin1$flipCoin2$flipCoin3
 
 done
 
-for combination in ${singlets[@]}
+for combination in ${triplets[@]}
 do
-	singletPercent[$combination]=$((${singletPercent[$combination]}+1))
+	tripletPercent[$combination]=$((${tripletPercent[$combination]}+1))
 done
 
-echo ${singlets[@]}
-for combination in ${!singletPercent[@]}
+echo ${triplets[@]}
+for combination in ${!tripletPercent[@]}
 do
-	singletPercent[$combination]=`awk 'BEGIN {print ('${singletPercent[$combination]}'/'$limit'*100)}'`
-	echo $combination" "${singletPercent[$combination]}"%"
+	tripletPercent[$combination]=`awk 'BEGIN {print ('${tripletPercent[$combination]}'/'$limit'*100)}'`
+	echo $combination" "${tripletPercent[$combination]}"%"
 done
