@@ -64,37 +64,37 @@ function combinationPercent(){
 }
 
 function percentSort(){
-local -n dictPercent=$1
-local -n percentArray=$2
-count=0
-for percent in ${dictPercent[@]}
-do
-	percentArray[$count]=$percent
-	count=$(($count+1))
-done
-
-arrLimit=${#percentArray[@]}
-for ((i=0;i<arrLimit;i++))
-do
-	for ((j=0;j<arrLimit-i-1;j++))
+	local -n dictPercent=$1
+	local -n percentArray=$2
+	count=0
+	for percent in ${dictPercent[@]}
 	do
-		if [[ `awk 'BEGIN {if( '${percentArray[$j]}' > '${percentArray[$j+1]}' ) print "true"}'` ]]
+		percentArray[$count]=$percent
+		count=$(($count+1))
+	done
+
+	arrLimit=${#percentArray[@]}
+	for ((i=0;i<arrLimit;i++))
+	do
+		for ((j=0;j<arrLimit-i-1;j++))
+		do
+			if [[ `awk 'BEGIN {if( '${percentArray[$j]}' > '${percentArray[$j+1]}' ) print "true"}'` ]]
+			then
+				temp=${percentArray[$j]}
+				percentArray[$j]=${percentArray[$j+1]}
+				percentArray[$j+1]=$temp
+			fi
+		done
+	done
+	echo ${percentArray[@]}
+	maxPos=$(($arrLimit-1))
+	for combination in ${!dictPercent[@]}
+	do
+		if [[ ${percentArray[$maxPos]} -eq ${dictPercent[$combination]} ]]
 		then
-			temp=${percentArray[$j]}
-			percentArray[$j]=${percentArray[$j+1]}
-			percentArray[$j+1]=$temp
+			echo "the winning combination is "$combination
 		fi
 	done
-done
-echo ${percentArray[@]}
-maxPos=$(($arrLimit-1))
-for combination in ${!dictPercent[@]}
-do
-	if [[ ${percentArray[$maxPos]} -eq ${dictPercent[$combination]} ]]
-	then
-		echo "the winning combination is "$combination
-	fi
-done
 
 }
 
